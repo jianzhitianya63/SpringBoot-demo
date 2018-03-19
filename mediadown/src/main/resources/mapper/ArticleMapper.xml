@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhxx.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.xhxx.pojo.Article">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="tags" jdbcType="VARCHAR" property="tags" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="timestamp" jdbcType="INTEGER" property="timestamp" />
+    <result column="readNum" jdbcType="INTEGER" property="readnum" />
+    <result column="commentNum" jdbcType="INTEGER" property="commentnum" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="categery1" jdbcType="VARCHAR" property="categery1" />
+    <result column="categery2" jdbcType="VARCHAR" property="categery2" />
+    <result column="categery3" jdbcType="VARCHAR" property="categery3" />
+    <result column="image1" jdbcType="VARCHAR" property="image1" />
+    <result column="image2" jdbcType="VARCHAR" property="image2" />
+    <result column="image3" jdbcType="VARCHAR" property="image3" />
+    <result column="imagecount" jdbcType="INTEGER" property="imagecount" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="origin" jdbcType="VARCHAR" property="origin" />
+    <result column="failed_msg" jdbcType="VARCHAR" property="failedMsg" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xhxx.pojo.Article">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, title, tags, description, author, timestamp, readNum, commentNum, url, categery1, 
+    categery2, categery3, image1, image2, image3, imagecount, status, origin, failed_msg
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.xhxx.pojo.ArticleExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.xhxx.pojo.ArticleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null and pageSize != null and pageSize != 0">
+      limit #{startRow},#{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xhxx.pojo.ArticleExample">
+    delete from article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xhxx.pojo.Article">
+    insert into article (id, title, tags, 
+      description, author, timestamp, 
+      readNum, commentNum, url, 
+      categery1, categery2, categery3, 
+      image1, image2, image3, 
+      imagecount, status, origin, 
+      failed_msg, content)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{timestamp,jdbcType=INTEGER}, 
+      #{readnum,jdbcType=INTEGER}, #{commentnum,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, 
+      #{categery1,jdbcType=VARCHAR}, #{categery2,jdbcType=VARCHAR}, #{categery3,jdbcType=VARCHAR}, 
+      #{image1,jdbcType=VARCHAR}, #{image2,jdbcType=VARCHAR}, #{image3,jdbcType=VARCHAR}, 
+      #{imagecount,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{origin,jdbcType=VARCHAR}, 
+      #{failedMsg,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xhxx.pojo.Article">
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="tags != null">
+        tags,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="timestamp != null">
+        timestamp,
+      </if>
+      <if test="readnum != null">
+        readNum,
+      </if>
+      <if test="commentnum != null">
+        commentNum,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="categery1 != null">
+        categery1,
+      </if>
+      <if test="categery2 != null">
+        categery2,
+      </if>
+      <if test="categery3 != null">
+        categery3,
+      </if>
+      <if test="image1 != null">
+        image1,
+      </if>
+      <if test="image2 != null">
+        image2,
+      </if>
+      <if test="image3 != null">
+        image3,
+      </if>
+      <if test="imagecount != null">
+        imagecount,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="origin != null">
+        origin,
+      </if>
+      <if test="failedMsg != null">
+        failed_msg,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamp != null">
+        #{timestamp,jdbcType=INTEGER},
+      </if>
+      <if test="readnum != null">
+        #{readnum,jdbcType=INTEGER},
+      </if>
+      <if test="commentnum != null">
+        #{commentnum,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="categery1 != null">
+        #{categery1,jdbcType=VARCHAR},
+      </if>
+      <if test="categery2 != null">
+        #{categery2,jdbcType=VARCHAR},
+      </if>
+      <if test="categery3 != null">
+        #{categery3,jdbcType=VARCHAR},
+      </if>
+      <if test="image1 != null">
+        #{image1,jdbcType=VARCHAR},
+      </if>
+      <if test="image2 != null">
+        #{image2,jdbcType=VARCHAR},
+      </if>
+      <if test="image3 != null">
+        #{image3,jdbcType=VARCHAR},
+      </if>
+      <if test="imagecount != null">
+        #{imagecount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="origin != null">
+        #{origin,jdbcType=VARCHAR},
+      </if>
+      <if test="failedMsg != null">
+        #{failedMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xhxx.pojo.ArticleExample" resultType="java.lang.Long">
+    select count(*) from article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update article
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tags != null">
+        tags = #{record.tags,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null">
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timestamp != null">
+        timestamp = #{record.timestamp,jdbcType=INTEGER},
+      </if>
+      <if test="record.readnum != null">
+        readNum = #{record.readnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentnum != null">
+        commentNum = #{record.commentnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categery1 != null">
+        categery1 = #{record.categery1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categery2 != null">
+        categery2 = #{record.categery2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categery3 != null">
+        categery3 = #{record.categery3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.image1 != null">
+        image1 = #{record.image1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.image2 != null">
+        image2 = #{record.image2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.image3 != null">
+        image3 = #{record.image3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imagecount != null">
+        imagecount = #{record.imagecount,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.origin != null">
+        origin = #{record.origin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.failedMsg != null">
+        failed_msg = #{record.failedMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update article
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      tags = #{record.tags,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      timestamp = #{record.timestamp,jdbcType=INTEGER},
+      readNum = #{record.readnum,jdbcType=INTEGER},
+      commentNum = #{record.commentnum,jdbcType=INTEGER},
+      url = #{record.url,jdbcType=VARCHAR},
+      categery1 = #{record.categery1,jdbcType=VARCHAR},
+      categery2 = #{record.categery2,jdbcType=VARCHAR},
+      categery3 = #{record.categery3,jdbcType=VARCHAR},
+      image1 = #{record.image1,jdbcType=VARCHAR},
+      image2 = #{record.image2,jdbcType=VARCHAR},
+      image3 = #{record.image3,jdbcType=VARCHAR},
+      imagecount = #{record.imagecount,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      origin = #{record.origin,jdbcType=VARCHAR},
+      failed_msg = #{record.failedMsg,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update article
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      tags = #{record.tags,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      timestamp = #{record.timestamp,jdbcType=INTEGER},
+      readNum = #{record.readnum,jdbcType=INTEGER},
+      commentNum = #{record.commentnum,jdbcType=INTEGER},
+      url = #{record.url,jdbcType=VARCHAR},
+      categery1 = #{record.categery1,jdbcType=VARCHAR},
+      categery2 = #{record.categery2,jdbcType=VARCHAR},
+      categery3 = #{record.categery3,jdbcType=VARCHAR},
+      image1 = #{record.image1,jdbcType=VARCHAR},
+      image2 = #{record.image2,jdbcType=VARCHAR},
+      image3 = #{record.image3,jdbcType=VARCHAR},
+      imagecount = #{record.imagecount,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      origin = #{record.origin,jdbcType=VARCHAR},
+      failed_msg = #{record.failedMsg,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xhxx.pojo.Article">
+    update article
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamp != null">
+        timestamp = #{timestamp,jdbcType=INTEGER},
+      </if>
+      <if test="readnum != null">
+        readNum = #{readnum,jdbcType=INTEGER},
+      </if>
+      <if test="commentnum != null">
+        commentNum = #{commentnum,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="categery1 != null">
+        categery1 = #{categery1,jdbcType=VARCHAR},
+      </if>
+      <if test="categery2 != null">
+        categery2 = #{categery2,jdbcType=VARCHAR},
+      </if>
+      <if test="categery3 != null">
+        categery3 = #{categery3,jdbcType=VARCHAR},
+      </if>
+      <if test="image1 != null">
+        image1 = #{image1,jdbcType=VARCHAR},
+      </if>
+      <if test="image2 != null">
+        image2 = #{image2,jdbcType=VARCHAR},
+      </if>
+      <if test="image3 != null">
+        image3 = #{image3,jdbcType=VARCHAR},
+      </if>
+      <if test="imagecount != null">
+        imagecount = #{imagecount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="origin != null">
+        origin = #{origin,jdbcType=VARCHAR},
+      </if>
+      <if test="failedMsg != null">
+        failed_msg = #{failedMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xhxx.pojo.Article">
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      timestamp = #{timestamp,jdbcType=INTEGER},
+      readNum = #{readnum,jdbcType=INTEGER},
+      commentNum = #{commentnum,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      categery1 = #{categery1,jdbcType=VARCHAR},
+      categery2 = #{categery2,jdbcType=VARCHAR},
+      categery3 = #{categery3,jdbcType=VARCHAR},
+      image1 = #{image1,jdbcType=VARCHAR},
+      image2 = #{image2,jdbcType=VARCHAR},
+      image3 = #{image3,jdbcType=VARCHAR},
+      imagecount = #{imagecount,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      origin = #{origin,jdbcType=VARCHAR},
+      failed_msg = #{failedMsg,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xhxx.pojo.Article">
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      timestamp = #{timestamp,jdbcType=INTEGER},
+      readNum = #{readnum,jdbcType=INTEGER},
+      commentNum = #{commentnum,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      categery1 = #{categery1,jdbcType=VARCHAR},
+      categery2 = #{categery2,jdbcType=VARCHAR},
+      categery3 = #{categery3,jdbcType=VARCHAR},
+      image1 = #{image1,jdbcType=VARCHAR},
+      image2 = #{image2,jdbcType=VARCHAR},
+      image3 = #{image3,jdbcType=VARCHAR},
+      imagecount = #{imagecount,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      origin = #{origin,jdbcType=VARCHAR},
+      failed_msg = #{failedMsg,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

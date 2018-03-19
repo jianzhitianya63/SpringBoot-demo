@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="content-show" />
+        <module name="mediadown" />
+        <module name="mediadown (1) (cn.xhxx)" />
+        <module name="mongodb" />
+        <module name="redis" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="content-show" target="1.6" />
+      <module name="mediadown" target="1.8" />
+      <module name="mediadown (1) (cn.xhxx)" target="1.7" />
+      <module name="mongodb" target="1.8" />
+      <module name="redis" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
