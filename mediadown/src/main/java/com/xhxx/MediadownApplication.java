@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @Import({DynamicDataSourceRegister.class}) // 注册动态多数据源
-@EnableMongoRepositories
 public class MediadownApplication {
 
 	public static void main(String[] args) {
